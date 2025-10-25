@@ -1,0 +1,33 @@
+[33mcommit c2741eb515a33da5068a7bf39961e2d77dab8ab3[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Rohit3.Rajput <Rohit3.Rajput@ril.com>
+Date:   Fri Oct 24 19:55:43 2025 +0530
+
+    Initial commit: Assignment Workflow Portal Frontend with React, Tailwind CSS, and Context API
+
+ .gitignore                                   |   24 [32m+[m
+ README.md                                    |   16 [32m+[m
+ eslint.config.js                             |   29 [32m+[m
+ index.html                                   |   13 [32m+[m
+ package-lock.json                            | 3896 [32m++++++++++++++++++++++++++[m
+ package.json                                 |   34 [32m+[m
+ postcss.config.js                            |    5 [32m+[m
+ postcss.config.mjs                           |    6 [32m+[m
+ public/vite.svg                              |    1 [32m+[m
+ src/App.css                                  |    1 [32m+[m
+ src/App.jsx                                  |   23 [32m+[m
+ src/assets/react.svg                         |    1 [32m+[m
+ src/components/Dashboard.jsx                 |   55 [32m+[m
+ src/components/Login.jsx                     |   94 [32m+[m
+ src/components/student/StudentDashboard.jsx  |  262 [32m++[m
+ src/components/student/SubmissionForm.jsx    |  127 [32m+[m
+ src/components/student/ViewSubmission.jsx    |  114 [32m+[m
+ src/components/teacher/AssignmentForm.jsx    |  124 [32m+[m
+ src/components/teacher/AssignmentList.jsx    |  182 [32m++[m
+ src/components/teacher/SubmissionsViewer.jsx |  137 [32m+[m
+ src/components/teacher/TeacherDashboard.jsx  |  289 [32m++[m
+ src/context/AssignmentContext.jsx            |  188 [32m++[m
+ src/context/AuthContext.jsx                  |   49 [32m+[m
+ src/index.css                                |    1 [32m+[m
+ src/main.jsx                                 |   10 [32m+[m
+ vite.config.js                               |    8 [32m+[m
+ 26 files changed, 5689 insertions(+)
