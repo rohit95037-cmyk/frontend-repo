@@ -18,14 +18,18 @@ const StudentDashboard = () => {
 
   const publishedAssignments = getPublishedAssignments();
 
-  // Calculate statistics
-  const activeAssignments = publishedAssignments.filter(
+  // Separate assignments into active and completed
+  const activeAssignmentsList = publishedAssignments.filter(
     (a) => !hasStudentSubmitted(a.id, user.email)
-  ).length;
+  );
 
-  const completedAssignments = publishedAssignments.filter((a) =>
+  const completedAssignmentsList = publishedAssignments.filter((a) =>
     hasStudentSubmitted(a.id, user.email)
-  ).length;
+  );
+
+  // Calculate statistics
+  const activeAssignments = activeAssignmentsList.length;
+  const completedAssignments = completedAssignmentsList.length;
 
   const overdueAssignments = publishedAssignments.filter((a) => {
     const dueDate = new Date(a.dueDate);
@@ -140,13 +144,13 @@ const StudentDashboard = () => {
         </p>
       </div>
 
-      {/* Assignments List */}
-      <div className="bg-white rounded-lg shadow p-6">
+      {/* Active Assignments List */}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h3 className="text-xl font-bold text-gray-800 mb-4">
-          Available Assignments ({publishedAssignments.length})
+          Available Assignments ({activeAssignmentsList.length})
         </h3>
 
-        {publishedAssignments.length === 0 ? (
+        {activeAssignmentsList.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <svg
               className="w-16 h-16 text-gray-400 mx-auto mb-4"
@@ -161,7 +165,7 @@ const StudentDashboard = () => {
               />
             </svg>
             <p className="text-gray-500 text-lg">
-              No assignments available yet.
+              No active assignments available.
             </p>
             <p className="text-gray-400 text-sm mt-2">
               Check back later for new assignments.
@@ -169,17 +173,14 @@ const StudentDashboard = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            {publishedAssignments.map((assignment) => {
-              const submitted = hasStudentSubmitted(assignment.id, user.email);
+            {activeAssignmentsList.map((assignment) => {
               const overdue = isOverdue(assignment.dueDate);
 
               return (
                 <div
                   key={assignment.id}
                   className={`border rounded-lg p-5 ${
-                    submitted
-                      ? "bg-green-50 border-green-200"
-                      : overdue
+                    overdue
                       ? "bg-red-50 border-red-200"
                       : "bg-white border-gray-300"
                   }`}>
@@ -189,12 +190,7 @@ const StudentDashboard = () => {
                         <h4 className="text-lg font-bold text-gray-800">
                           {assignment.title}
                         </h4>
-                        {submitted && (
-                          <span className="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
-                            SUBMITTED
-                          </span>
-                        )}
-                        {!submitted && overdue && (
+                        {overdue && (
                           <span className="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full">
                             OVERDUE
                           </span>
@@ -215,19 +211,11 @@ const StudentDashboard = () => {
                       </div>
                     </div>
                     <div className="ml-4">
-                      {submitted ? (
-                        <button
-                          onClick={() => handleViewSubmission(assignment)}
-                          className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
-                          View Submission
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setSubmittingAssignment(assignment)}
-                          className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition">
-                          Submit Assignment
-                        </button>
-                      )}
+                      <button
+                        onClick={() => setSubmittingAssignment(assignment)}
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition">
+                        Submit Assignment
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -236,6 +224,58 @@ const StudentDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Completed Assignments List */}
+      {completedAssignmentsList.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">
+            Completed Assignments ({completedAssignmentsList.length})
+          </h3>
+
+          <div className="space-y-4">
+            {completedAssignmentsList.map((assignment) => {
+              return (
+                <div
+                  key={assignment.id}
+                  className="border rounded-lg p-5 bg-green-50 border-green-200">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h4 className="text-lg font-bold text-gray-800">
+                          {assignment.title}
+                        </h4>
+                        <span className="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
+                          COMPLETED
+                        </span>
+                      </div>
+                      <p className="text-gray-600 text-sm mb-3">
+                        {assignment.description}
+                      </p>
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-gray-500">
+                          <span className="font-semibold">Due:</span>{" "}
+                          {new Date(assignment.dueDate).toLocaleDateString()}
+                        </span>
+                        <span className="text-gray-500">
+                          <span className="font-semibold">Posted:</span>{" "}
+                          {new Date(assignment.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <button
+                        onClick={() => handleViewSubmission(assignment)}
+                        className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+                        View Submission
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Modals */}
       {submittingAssignment && (

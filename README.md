@@ -100,22 +100,26 @@ src/
 ## Key Components
 
 ### Authentication Context (`AuthContext.jsx`)
+
 - Manages user authentication state
 - Handles login/logout functionality
 - Provides user role (teacher/student) information
 
 ### Assignment Context (`AssignmentContext.jsx`)
+
 - Manages assignment data across components
 - Handles CRUD operations for assignments
 - Provides submission management
 
 ### Teacher Components
+
 - **AssignmentForm**: Create and edit assignments
 - **AssignmentList**: View all created assignments
 - **SubmissionsViewer**: Review student submissions
 - **TeacherDashboard**: Main teacher interface
 
 ### Student Components
+
 - **StudentDashboard**: Main student interface
 - **SubmissionForm**: Submit assignment solutions
 - **ViewSubmission**: View submitted assignments
@@ -123,26 +127,31 @@ src/
 ## Additional Notes and Assumptions
 
 ### Backend Integration
+
 - This frontend expects a backend API running on `http://localhost:3000`
 - API endpoints should follow RESTful conventions
 - Authentication should use JWT tokens
 - CORS should be enabled for frontend-backend communication
 
 ### User Roles
+
 - **Teachers**: Can create assignments, view submissions, and manage content
 - **Students**: Can view assignments, submit solutions, and track their progress
 
 ### Data Flow
+
 - User authentication is handled through context
 - Assignment data is managed centrally through AssignmentContext
 - Real-time updates are simulated through context state changes
 
 ### Styling Approach
+
 - Material-UI provides the component library
 - Tailwind CSS handles utility styling and responsive design
 - Custom CSS is used for specific component styling
 
 ### Development Assumptions
+
 - Modern browsers with ES6+ support
 - Local development environment
 - Backend API is available and properly configured
